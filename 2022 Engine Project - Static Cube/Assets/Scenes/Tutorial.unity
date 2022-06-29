@@ -363,6 +363,7 @@ MonoBehaviour:
   specialPriceText: {fileID: 1902424582}
   questManager: {fileID: 0}
   tutorialManager: {fileID: 0}
+  uiManager: {fileID: 0}
   bullet: {fileID: 7962632533944744562, guid: e50d71ecc9f42074ba4c90798e1804fd, type: 3}
   empty: {fileID: 8743378168044595717, guid: 211a4203ff504204ea0b8ec5f6275661, type: 3}
   camera: {fileID: 963194227}
@@ -1640,16 +1641,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "WASD\uB97C \uC774\uC6A9\uD558\uC5EC Cube \uC774\uB3D9\uC2DC\uD0A4\uAE30\r\n\r\nQ\uB97C
-    \uB20C\uB7EC Protected \uD65C\uC131\uD654 \uD558\uC5EC \uC801\uC5D0\uAC8C \uD53C\uD574
-    \uC785\uD788\uAE30\r\nE\uB97C \uB20C\uB7EC DFS \uD65C\uC131\uD654 \uD558\uC5EC
-    \uC801\uC5D0\uC5D0 \uD53C\uD574 \uC785\uD788\uAE30\r\n\uC88C\uD074\uB9AD\uD558\uC5EC
-    Instantiate \uD0C4\uD658 \uBC1C\uC0AC\uD558\uC5EC \uC801\uC5D0\uAC8C \uD53C\uD574
-    \uC785\uD788\uAE30\r\n\r\nProtected, DFS, Instantiate \uC911 \uC544\uBB34\uAC70\uB098
-    Overflow \uC0C1\uD0DC\uB85C \uB9CC\uB4E4\uAE30\r\n\r\nCube\uB97C \uC774\uB3D9\uC2DC\uCF1C
-    Gold \uD68D\uB4DD\uD558\uAE30\r\nSTORE \uBC84\uD2BC\uC744 \uB204\uB974\uAC70
-    TAB\uD0A4\uB97C \uB20C\uB7EC \uC0C1\uC810 \uC785\uC7A5\uD558\uAE30\r\n\uC6D0\uD558\uB294
-    \uC635\uC158\uC744 \uAC15\uD654\uD558\uAE30\r\n"
+  m_Text: 
 --- !u!222 &253436036
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2897,6 +2889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 155dfc0163153e247a8f16094e033e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPause: 0
   text_damagEffect: {fileID: 5070569428673761567, guid: 517d7be8ea700e94e8d44ad79b5f8059, type: 3}
   transform_damageEffect: {fileID: 538752330}
   PauseCanvas: {fileID: 265130058}
@@ -4336,7 +4329,7 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 1
+    m_LineSpacing: 1.2
   m_Text: 'Press Esc To Continue
 
     or
@@ -6943,6 +6936,7 @@ MonoBehaviour:
   specialPriceText: {fileID: 341674836}
   questManager: {fileID: 0}
   tutorialManager: {fileID: 0}
+  uiManager: {fileID: 0}
   attackDelay: 1
   dfsBullet: {fileID: 7003794332114957111, guid: 56ae8fedd1c1669459cc9ba24b834474, type: 3}
 --- !u!1 &1363573500
@@ -7706,18 +7700,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   questList:
-  - "WASD\uB97C \uC774\uC6A9\uD558\uC5EC Cube \uC774\uB3D9\uC2DC\uD0A4\uAE30"
+  - "WASD\uB97C \uC774\uC6A9\uD558\uC5EC Cube \uC870\uC791\uD558\uAE30"
   - "Q\uB97C \uB20C\uB7EC Protected \uD65C\uC131\uD654 \uD558\uC5EC \uC801\uC5D0\uAC8C
-    \uD53C\uD574 \uC785\uD788\uAE30"
+    \uD53C\uD574\uB97C \uC785\uD788\uAE30"
   - "E\uB97C \uB20C\uB7EC DFS \uD65C\uC131\uD654 \uD558\uC5EC \uC801\uC5D0\uC5D0
-    \uD53C\uD574 \uC785\uD788\uAE30"
-  - "\uC88C\uD074\uB9AD\uD558\uC5EC Instantiate \uD0C4\uD658 \uBC1C\uC0AC\uD558\uC5EC
-    \uC801\uC5D0\uAC8C \uD53C\uD574 \uC785\uD788\uAE30"
-  - "Protected, DFS, Instantiate \uC911 \uC544\uBB34\uAC70\uB098 Overflow \uC0C1\uD0DC\uB85C
+    \uD53C\uD574\uB97C \uC785\uD788\uAE30"
+  - "\uC88C\uD074\uB9AD\uC73C\uB85C Instantiate \uD0C4\uD658\uC744 \uBC1C\uC0AC\uD558\uC5EC
+    \uC801\uC5D0\uAC8C \uD53C\uD574\uB97C \uC785\uD788\uAE30"
+  - "Protected, DFS, Instantiate \uC911 \uD558\uB098\uB97C Overflow \uC0C1\uD0DC\uB85C
     \uB9CC\uB4E4\uAE30"
   - "Cube\uB97C \uC774\uB3D9\uC2DC\uCF1C Gold \uD68D\uB4DD\uD558\uAE30"
   - "STORE \uBC84\uD2BC\uC744 \uB204\uB974\uAC70\uB098 TAB\uD0A4\uB97C \uB20C\uB7EC
-    \uC0C1\uC810 \uC785\uC7A5\uD558\uAE30"
+    \uC0C1\uC810 \uD65C\uC131\uD654\uD558\uAE30"
   - "\uC6D0\uD558\uB294 \uC635\uC158\uC744 \uAC15\uD654\uD558\uAE30"
   - "\uAC8C\uC784\uC624\uBC84 \uB2F9\uD558\uAE30"
   nowQuestText: {fileID: 253436035}

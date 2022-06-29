@@ -22,15 +22,18 @@ public class Item_DFS : Item_
 
     protected override void Move()
     {
-        attackCount += Time.deltaTime;
-        if (attackCount >= attackDelay && !isAttack)
+        if (!uiManager.isPause)
         {
-            isAttack = true;
-            Attack();
-            attackCount = 0;
-            isAttack = false;
+            attackCount += Time.deltaTime;
+            if (attackCount >= attackDelay && !isAttack)
+            {
+                isAttack = true;
+                Attack();
+                attackCount = 0;
+                isAttack = false;
+            }
+            CheckSpecialUpgrade();
         }
-        CheckSpecialUpgrade();
     }
     public void CheckSpecialUpgrade()
     {

@@ -362,6 +362,7 @@ MonoBehaviour:
   specialPriceText: {fileID: 1902424582}
   questManager: {fileID: 0}
   tutorialManager: {fileID: 0}
+  uiManager: {fileID: 0}
   bullet: {fileID: 7962632533944744562, guid: e50d71ecc9f42074ba4c90798e1804fd, type: 3}
   empty: {fileID: 8743378168044595717, guid: 211a4203ff504204ea0b8ec5f6275661, type: 3}
   camera: {fileID: 963194227}
@@ -1976,6 +1977,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 327543106}
+  - component: {fileID: 327543107}
   - component: {fileID: 327543105}
   m_Layer: 0
   m_Name: GameManager
@@ -2037,6 +2039,49 @@ Transform:
   m_Father: {fileID: 1105737571}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &327543107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327543104}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f63fedc15c5c448b9417ea26fb678b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 0}
+  isPlayerDead: 0
+  PlayerGold: 0
+  canvasStore: {fileID: 0}
+  object_DFS: {fileID: 0}
+  progressbar_DFS: {fileID: 0}
+  memory_DFS: 0
+  isOverflow_DFS: 0
+  isStack_DFS: 0
+  object_Protected: {fileID: 0}
+  progressbar_Protected: {fileID: 0}
+  memory_Protected: 0
+  isOverflow_Protected: 0
+  isStack_Protected: 0
+  object_Instantiate: {fileID: 0}
+  progressbar_Instantiate: {fileID: 0}
+  memory_Instantiate: 0
+  isOverflow_Instantiate: 0
+  isStack_Instantiate: 0
+  isDeleting_Instantiate: 0
+  solveOverflowPerSec: 15
+  playerGoldText: {fileID: 0}
+  playerkilledText: {fileID: 0}
+  gameoverCanvas: {fileID: 0}
+  dieEnemyCount: 0
+  playerHp: {fileID: 0}
+  hpBar: {fileID: 0}
+  dummy: {fileID: 6010591772103719449, guid: af189f47fa87bf748a75c8042ccb59ed, type: 3}
+  isDummyDead: 1
+  dummyTransform: {fileID: 0}
+  chestTransform: {fileID: 0}
 --- !u!1 &341674833
 GameObject:
   m_ObjectHideFlags: 0
@@ -2551,6 +2596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 155dfc0163153e247a8f16094e033e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPause: 0
   text_damagEffect: {fileID: 5070569428673761567, guid: 517d7be8ea700e94e8d44ad79b5f8059, type: 3}
   transform_damageEffect: {fileID: 538752330}
   PauseCanvas: {fileID: 790737952}
@@ -6747,6 +6793,7 @@ MonoBehaviour:
   specialPriceText: {fileID: 341674836}
   questManager: {fileID: 0}
   tutorialManager: {fileID: 0}
+  uiManager: {fileID: 0}
   attackDelay: 1
   dfsBullet: {fileID: 7003794332114957111, guid: 56ae8fedd1c1669459cc9ba24b834474, type: 3}
 --- !u!1 &1363573500

@@ -12,9 +12,11 @@ public class WaveManager : MonoBehaviour
     public Text nowWaveText;
     private GameManager gameManager;
     public bool enemyDestroy = false;
+    private TutorialManager tutorialManager = null;
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
+        tutorialManager = FindObjectOfType<TutorialManager>();
         StartCoroutine("AutoWaveSystem");
     }
 
@@ -79,6 +81,7 @@ public class WaveManager : MonoBehaviour
             }
 
             yield return new WaitForSeconds(7f);
+            Debug.Log("NextWave");
             nowWave++;
         }
     }

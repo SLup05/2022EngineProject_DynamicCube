@@ -30,13 +30,16 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-
         if (PlayerHp <= 0)
         {
+            Debug.Log("Player Die In");
             if (questManager == null)
             {
-
-                PlayerDie();
+                Debug.Log("Player Die");
+                gameManager.isPlayerDead = true;
+                gameObject.SetActive(false);
+                //Destroy(gameObject);
+                //PlayerDie();
             }
             else if (questManager.nowQuest == 8)
             {
@@ -80,16 +83,19 @@ public class PlayerControl : MonoBehaviour
 
     private void PlayerDie()
     {
+        Debug.Log("PlayerDie");
         if (gameManager == null)
         {
             tutorialManager.isPlayerDead = true;
         }
         else
         {
+            Debug.Log("isPlayerDead");
             gameManager.isPlayerDead = true;
         }
-        Destroy(gameObject);
+
         gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)

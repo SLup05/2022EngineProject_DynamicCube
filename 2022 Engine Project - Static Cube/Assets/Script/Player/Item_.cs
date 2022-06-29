@@ -21,9 +21,11 @@ public class Item_ : MonoBehaviour
     public Text specialPriceText;
     public QuestManager questManager = null;
     public TutorialManager tutorialManager = null;
+    public UIManager uiManager;
     // Start is called before the first frame update
     protected void Awake()
     {
+        uiManager = FindObjectOfType<UIManager>();
         questManager = FindObjectOfType<QuestManager>();
         gameManager = FindObjectOfType<GameManager>();
         tutorialManager = FindObjectOfType<TutorialManager>();

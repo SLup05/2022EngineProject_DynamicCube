@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    private bool isPause = false;
+    public bool isPause = false;
     public GameObject text_damagEffect = null;
     public Transform transform_damageEffect = null;
     public Canvas PauseCanvas = null;

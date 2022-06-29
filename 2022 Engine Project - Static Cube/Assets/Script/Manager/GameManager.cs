@@ -46,75 +46,81 @@ public class GameManager : MonoBehaviour
     private bool isGameOver = false;
     private QuestManager questManager;
 
-
+    private UIManager uiManager;
     //public Text nowWaveText = null;
     private void Start()
     {
         playerControl = FindObjectOfType<PlayerControl>();
         material = GetComponent<Material>();
         questManager = FindObjectOfType<QuestManager>();
+        uiManager = FindObjectOfType<UIManager>();
     }
 
     private void Update()
     {
-        Ray CamRay = camera.ScreenPointToRay(Input.mousePosition);
-        playerGoldText.text = PlayerGold.ToString() + "G";
+        if (!uiManager.isPause)
+        {
+            Ray CamRay = camera.ScreenPointToRay(Input.mousePosition);
+            playerGoldText.text = PlayerGold.ToString() + "G";
 
-        RaycastHit raycastHit;
-        if (Input.GetMouseButtonDown(1))
-        {
-            Debug.Log("CLick");
-            // if (Physics.Raycast(CamRay, out raycastHit, 10000))
-            // {
-            //     //                Debug.Log("RayHit");
-            //     if (raycastHit.transform.tag == "Chest")
-            //     {
-            //         PlayerGold += 10;
-            //         //Debug.Log("CHest");
-            //         raycastHit.transform.GetComponent<ChestControl>().Die();
-            //     }
-            // }
-        }
-        if (Input.GetMouseButtonDown(0))
-        {
-            //Debug.Log("CLick");
-            if (Physics.Raycast(CamRay, out raycastHit, 10000))
+            RaycastHit raycastHit;
+            if (Input.GetMouseButtonDown(1))
             {
-                //                Debug.Log("RayHit");
-                if (raycastHit.transform.tag == "UI")
+                Debug.Log("CLick");
+                // if (Physics.Raycast(CamRay, out raycastHit, 10000))
+                // {
+                //     //                Debug.Log("RayHit");
+                //     if (raycastHit.transform.tag == "Chest")
+                //     {
+                //         PlayerGold += 10;
+                //         //Debug.Log("CHest");
+                //         raycastHit.transform.GetComponent<ChestControl>().Die();
+                //     }
+                // }
+            }
+            if (Input.GetMouseButtonDown(0))
+            {
+                //Debug.Log("CLick");
+                if (Physics.Raycast(CamRay, out raycastHit, 10000))
                 {
-                    //PlayerGold += 10;
-                    //Debug.Log("CHest");
-                    Debug.Log("Ray Button");
-                    isStoreButtonDown = true;
+                    //                Debug.Log("RayHit");
+                    if (raycastHit.transform.tag == "UI")
+                    {
+                        //PlayerGold += 10;
+                        //Debug.Log("CHest");
+                        Debug.Log("Ray Button");
+                        isStoreButtonDown = true;
+                    }
                 }
             }
-        }
 
-        if (isPlayerDead && !isGameOver)
-        {
-            isGameOver = true;
-            StartCoroutine("GameOver");
-        }
-        if (isGameOver)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (isPlayerDead && !isGameOver)
             {
-                Debug.Log("To Title");
-                SceneManager.LoadScene("Title");
+                Debug.Log("GameOver In");
+                isGameOver = true; //예외처리
+                StartCoroutine("GameOver");
             }
-        }
-        if (Input.GetKeyDown(KeyCode.Tab))
-            StoreButtonDown();
+            if (isGameOver)
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    Debug.Log("To Title");
+                    SceneManager.LoadScene("Title");
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.Tab))
+                StoreButtonDown();
 
-        PlayerHpProd();
-        SetMemory_Protected();
-        SetMemory_DFS();
-        SetMemory_Instantiate();
+            PlayerHpProd();
+            SetMemory_Protected();
+            SetMemory_DFS();
+            SetMemory_Instantiate();
+        }
     }
 
     private IEnumerator GameOver()
     {
+        Debug.Log("GameOver Second In");
         yield return new WaitForSeconds(1f);
         WaveManager waveManager = null;
         waveManager = FindObjectOfType<WaveManager>();
@@ -124,11 +130,16 @@ public class GameManager : MonoBehaviour
 
     private void PlayerHpProd()
     {
+        float tempHP = playerControl.PlayerHp;
         if (!isPlayerDead)
         {
-            float tempHP = playerControl.PlayerHp;
             playerHp.text = tempHP + " / 100";
             hpBar.transform.localScale = new Vector3(tempHP * 0.01f, hpBar.transform.localScale.y, hpBar.transform.localScale.z);
+        }
+        else if (isPlayerDead)
+        {
+            playerHp.text = 0 + " / 100";
+            hpBar.transform.localScale = new Vector3(0, hpBar.transform.localScale.y, hpBar.transform.localScale.z);
         }
     }
 

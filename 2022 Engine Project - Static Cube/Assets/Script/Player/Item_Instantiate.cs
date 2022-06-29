@@ -8,6 +8,7 @@ public class Item_Instantiate : Item_
     public GameObject empty = null;
     //private float attackpoint = 0;
     public Camera camera = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,31 +16,35 @@ public class Item_Instantiate : Item_
         stackMemoryPerSec = 15f;
         deleteMemoryPerSec = 15f;
         speicalPharse = "발사 탄수 증가";
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        Ray CamRay = camera.ScreenPointToRay(Input.mousePosition);
-
-        RaycastHit raycastHit;
-        if (Input.GetMouseButtonDown(0))
+        if (!uiManager.isPause)
         {
-            //Debug.Log("CLick");
-            if (Physics.Raycast(CamRay, out raycastHit, 10000))
+            Ray CamRay = camera.ScreenPointToRay(Input.mousePosition);
+
+            RaycastHit raycastHit;
+            if (Input.GetMouseButtonDown(0))
             {
-                if (raycastHit.transform.tag != "UI")
+                //Debug.Log("CLick");
+                if (Physics.Raycast(CamRay, out raycastHit, 10000))
                 {
-                    Debug.Log("Ray Hit");
-                    Vector3 tempPos = raycastHit.point;
-                    StartCoroutine("ShootBullet", tempPos);
+                    if (raycastHit.transform.tag != "UI")
+                    {
+                        Debug.Log("Ray Hit");
+                        Vector3 tempPos = raycastHit.point;
+                        StartCoroutine("ShootBullet", tempPos);
+                    }
                 }
+                // GameObject _bullet = bullet;
+                // Instantiate(_bullet, transform.position, Quaternion.identity);
+                // Vector3 mousePos = Input.mousePosition;
+                // Vector3 targetPos = camera.WorldToScreenPoint(mousePos);
+                // _bullet.GetComponent<Instantiate_Bullet>().SetTargetPos(new Vector3(targetPos.x, 1, targetPos.z));
             }
-            // GameObject _bullet = bullet;
-            // Instantiate(_bullet, transform.position, Quaternion.identity);
-            // Vector3 mousePos = Input.mousePosition;
-            // Vector3 targetPos = camera.WorldToScreenPoint(mousePos);
-            // _bullet.GetComponent<Instantiate_Bullet>().SetTargetPos(new Vector3(targetPos.x, 1, targetPos.z));
         }
     }
 

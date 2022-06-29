@@ -32,6 +32,7 @@ public class EnemyMove : MonoBehaviour
     [SerializeField]
     protected bool isAttack = false;
     private Color tempC;
+    private TutorialManager tutorialManager;
     protected virtual void Start()
     {
         //waveManager = FindObjectOfType<WaveManager>();
@@ -39,6 +40,7 @@ public class EnemyMove : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
         waveManager = FindObjectOfType<WaveManager>();
         meshRenderer = GetComponent<MeshRenderer>();
+        tutorialManager = FindObjectOfType<TutorialManager>();
         SetStatus();
         tempC = meshRenderer.material.color;
     }
@@ -46,19 +48,15 @@ public class EnemyMove : MonoBehaviour
     protected void Update()
     {
         if (gameManager == null) { }
+        else if (gameManager.isPlayerDead == true)
+        {
+            //Debug.Log("StopEnemy");
+            //Destroy(gameObject);
+            //gameObject.SetActive(false);
+        }
         else
         {
-            if (gameManager.isPlayerDead == true)
-            {
-                //Debug.Log("StopEnemy");
-                Destroy(gameObject);
-                gameObject.SetActive(false);
-
-            }
-            else
-            {
-                //Debug.Log("Not Died");
-            }
+            //Debug.Log("Not Died");
         }
 
 
@@ -103,8 +101,9 @@ public class EnemyMove : MonoBehaviour
             //            Debug.Log("SpawnChest");
         }
         gameManager.dieEnemyCount++;
-        Destroy(gameObject);
+
         gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 
     /// <summary>
@@ -170,7 +169,7 @@ public class EnemyMove : MonoBehaviour
         }
         else if (attackdelayCount >= attackdelayTime)
         {
-            //Debug.Log("PlayerAttack");
+            //            Debug.Log("PlayerAttack");
             player.SendMessage("PlayerHit", attackpoint);
             attackdelayCount = 0;
         }
