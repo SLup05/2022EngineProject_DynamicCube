@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HowToPlay : MonoBehaviour
 {
@@ -16,26 +17,30 @@ public class HowToPlay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    }
+    public void nextHelp()
+    {
         if (isHowToPlayStart)
         {
-            if (Input.anyKeyDown)
+            canvaslist[count].gameObject.SetActive(false);
+            count++;
+            if (count > canvaslist.Length - 1)
             {
-                canvaslist[count].gameObject.SetActive(false);
-                count++;
-                if (count > canvaslist.Length - 1)
-                {
-                    isHowToPlayStart = false;
-                    canvaslist[count - 1].gameObject.SetActive(false);
-                    count = 0;
-                }
-                else
-                    canvaslist[count].gameObject.SetActive(true);
+                isHowToPlayStart = false;
+                canvaslist[count - 1].gameObject.SetActive(false);
+                count = 0;
             }
+            else
+                canvaslist[count].gameObject.SetActive(true);
         }
     }
     public void StartHowToPlay()
     {
         canvaslist[0].gameObject.SetActive(true);
         isHowToPlayStart = true;
+    }
+    public void MoveToTutorialStage()
+    {
+        SceneManager.LoadScene("Tutorial");
     }
 }

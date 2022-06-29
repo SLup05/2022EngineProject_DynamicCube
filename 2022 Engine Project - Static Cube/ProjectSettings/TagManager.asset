@@ -9,6 +9,10 @@ TagManager:
   - Enemy
   - Chest
   - UI
+  - Protected
+  - DFS
+  - Instantiate
+  - Dummy
   layers:
   - Default
   - TransparentFX

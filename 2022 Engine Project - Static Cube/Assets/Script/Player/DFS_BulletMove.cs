@@ -14,11 +14,13 @@ public class DFS_BulletMove : MonoBehaviour
     public float attackpoint = 0;
 
     private float destroyCount = 0f;
+    private QuestManager questManager = null;
     // Start is called before the first frame update
     void Start()
     {
         FindFarthestEnemy();
         transform.LookAt(targetPos);
+        questManager = FindObjectOfType<QuestManager>();
     }
 
     // Update is called once per frame
@@ -57,6 +59,16 @@ public class DFS_BulletMove : MonoBehaviour
         //Debug.Log("DFS Hit");
         if (other.gameObject.CompareTag("Enemy"))
         {
+            if (other.gameObject.GetComponent<SphereMove>() != null) { Debug.Log("isEnemy"); }
+            else if (other.gameObject.GetComponent<DummyMove>().isDummy)
+            {
+                Debug.Log("DummyCheck");
+                if (questManager.nowQuest == 2)
+                {
+                    questManager.GetUpdateQuest();
+                    Debug.Log("UpdateQuest");
+                }
+            }
             //            Debug.Log("get hit:DFS");
             other.gameObject.SendMessage("Hit", attackpoint);
         }

@@ -1,19 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
     private bool isPause = false;
     public GameObject text_damagEffect = null;
     public Transform transform_damageEffect = null;
-
+    public Canvas PauseCanvas = null;
 
     void Start()
     {
-
-
         //Material.DoFade(0, 1);
     }
 
@@ -23,16 +21,25 @@ public class UIManager : MonoBehaviour
         {
             if (!isPause)
             {
-
                 Debug.Log("inPause");
+                PauseCanvas.gameObject.SetActive(true);
                 Time.timeScale = 0;
                 isPause = true;
             }
             else
             {
                 Debug.Log("outPause");
+                PauseCanvas.gameObject.SetActive(false);
                 Time.timeScale = 1;
                 isPause = false;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (isPause)
+            {
+                Time.timeScale = 1;
+                SceneManager.LoadScene("Title");
             }
         }
     }

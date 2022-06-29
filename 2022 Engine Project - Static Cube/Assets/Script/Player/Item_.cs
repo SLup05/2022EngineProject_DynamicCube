@@ -6,6 +6,7 @@ public class Item_ : MonoBehaviour
 {
     protected float attackpoint = -1f;
     public float stackMemoryPerSec = 20f;
+    public float deleteMemoryPerSec = 20f;
     public GameManager gameManager = null;
 
     public Text attackIncreaseText = null;
@@ -18,10 +19,14 @@ public class Item_ : MonoBehaviour
     public string speicalPharse = "";
     public int specialPrice = 25;
     public Text specialPriceText;
+    public QuestManager questManager = null;
+    public TutorialManager tutorialManager = null;
     // Start is called before the first frame update
     protected void Awake()
     {
+        questManager = FindObjectOfType<QuestManager>();
         gameManager = FindObjectOfType<GameManager>();
+        tutorialManager = FindObjectOfType<TutorialManager>();
     }
 
     // Update is called once per frame
@@ -29,7 +34,8 @@ public class Item_ : MonoBehaviour
     {
         Move();
     }
-    protected void OnCollisionEnter(Collision other)
+
+    protected virtual void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
@@ -40,11 +46,19 @@ public class Item_ : MonoBehaviour
 
     public void Upgrade_AttackIncrease()
     {
-        Debug.Log("Upgrade Button Down");
-        if (gameManager.PlayerGold < 5) { }
+        Debug.Log("Upgrade Attack Button Down");
+        if (gameManager == null)
+        {
+            attackpoint = Mathf.Round(attackpoint * 1.15f);
+            attackIncreaseCount++;
+            attackIncreaseText.text = "공격력 강화 +" + attackIncreaseCount.ToString();
+            //Debug.Log("IncreaseAtk");
+            tutorialManager.DecreasePlayerGold(5);
+        }
+        else if (gameManager.PlayerGold < 5) { }
         else
         {
-            attackpoint = Mathf.Round(attackpoint * 1.5f);
+            attackpoint = Mathf.Round(attackpoint * 1.15f);
             attackIncreaseCount++;
             attackIncreaseText.text = "공격력 강화 +" + attackIncreaseCount.ToString();
             //Debug.Log("IncreaseAtk");
@@ -54,11 +68,24 @@ public class Item_ : MonoBehaviour
 
     public void Upgrade_MemoryOptimizaton()
     {
-        Debug.Log("Upgrade Button Down");
-        if (gameManager.PlayerGold < 5) { }
+        Debug.Log("Upgrade Memory Button Down");
+
+        if (gameManager == null)
+        {
+            stackMemoryPerSec = stackMemoryPerSec * 0.95f;
+            deleteMemoryPerSec = deleteMemoryPerSec * 0.95f;
+            memoryOptimizationCount++;
+            memoryOptimizationText.text = "메모리 최적화 +" + memoryOptimizationCount.ToString();
+            //Debug.Log("IncreaseAtk");
+            tutorialManager.DecreasePlayerGold(5);
+        }
+
+        else if (gameManager.PlayerGold < 5) { }
+
         else
         {
-            stackMemoryPerSec = Mathf.Round(stackMemoryPerSec * 0.9f);
+            stackMemoryPerSec = stackMemoryPerSec * 0.95f;
+            deleteMemoryPerSec = deleteMemoryPerSec * 0.95f;
             memoryOptimizationCount++;
             memoryOptimizationText.text = "메모리 최적화 +" + memoryOptimizationCount.ToString();
             //Debug.Log("IncreaseAtk");
@@ -68,7 +95,20 @@ public class Item_ : MonoBehaviour
     public void Upgrade_Special()
     {
         Debug.Log("Upgrade Button Down");
-        if (gameManager.PlayerGold < specialPrice) { }
+        if (gameManager == null)
+        {
+            specialCount++;
+            if (specialCount == 1)
+                speicalText.text = speicalPharse;
+            else
+                speicalText.text = speicalPharse + " +" + (specialCount - 1).ToString();
+            //Debug.Log("IncreaseAtk");
+            tutorialManager.DecreasePlayerGold(specialPrice);
+            specialPrice = 10;
+            specialPriceText.text = specialPrice.ToString() + "G";
+        }
+
+        else if (gameManager.PlayerGold < specialPrice) { }
         else
         {
             specialCount++;

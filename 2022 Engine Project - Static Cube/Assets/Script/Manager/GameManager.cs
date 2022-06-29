@@ -39,10 +39,20 @@ public class GameManager : MonoBehaviour
     public Canvas gameoverCanvas = null;
     public int dieEnemyCount = 0;
 
+    private PlayerControl playerControl = null;
+    public Text playerHp = null;
+    public GameObject hpBar = null;
+
+    private bool isGameOver = false;
+    private QuestManager questManager;
+
+
     //public Text nowWaveText = null;
     private void Start()
     {
+        playerControl = FindObjectOfType<PlayerControl>();
         material = GetComponent<Material>();
+        questManager = FindObjectOfType<QuestManager>();
     }
 
     private void Update()
@@ -54,16 +64,16 @@ public class GameManager : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             Debug.Log("CLick");
-            if (Physics.Raycast(CamRay, out raycastHit, 10000))
-            {
-                //                Debug.Log("RayHit");
-                if (raycastHit.transform.tag == "Chest")
-                {
-                    PlayerGold += 10;
-                    //Debug.Log("CHest");
-                    raycastHit.transform.GetComponent<ChestControl>().Die();
-                }
-            }
+            // if (Physics.Raycast(CamRay, out raycastHit, 10000))
+            // {
+            //     //                Debug.Log("RayHit");
+            //     if (raycastHit.transform.tag == "Chest")
+            //     {
+            //         PlayerGold += 10;
+            //         //Debug.Log("CHest");
+            //         raycastHit.transform.GetComponent<ChestControl>().Die();
+            //     }
+            // }
         }
         if (Input.GetMouseButtonDown(0))
         {
@@ -81,21 +91,45 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (isPlayerDead)
+        if (isPlayerDead && !isGameOver)
         {
-            WaveManager waveManager = null;
-            waveManager = FindObjectOfType<WaveManager>();
-            gameoverCanvas.gameObject.SetActive(true);
-            playerkilledText.text = "You Withstanded " + waveManager.nowWave + " Waves And Killed " + dieEnemyCount + " Enemies";
-            if (Input.anyKeyDown)
+            isGameOver = true;
+            StartCoroutine("GameOver");
+        }
+        if (isGameOver)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
             {
+                Debug.Log("To Title");
                 SceneManager.LoadScene("Title");
             }
         }
+        if (Input.GetKeyDown(KeyCode.Tab))
+            StoreButtonDown();
 
+        PlayerHpProd();
         SetMemory_Protected();
         SetMemory_DFS();
         SetMemory_Instantiate();
+    }
+
+    private IEnumerator GameOver()
+    {
+        yield return new WaitForSeconds(1f);
+        WaveManager waveManager = null;
+        waveManager = FindObjectOfType<WaveManager>();
+        gameoverCanvas.gameObject.SetActive(true);
+        playerkilledText.text = "YOU WITHSTANDED " + waveManager.nowWave + " WAVES AND KILLED " + dieEnemyCount + " ENEMIES";
+    }
+
+    private void PlayerHpProd()
+    {
+        if (!isPlayerDead)
+        {
+            float tempHP = playerControl.PlayerHp;
+            playerHp.text = tempHP + " / 100";
+            hpBar.transform.localScale = new Vector3(tempHP * 0.01f, hpBar.transform.localScale.y, hpBar.transform.localScale.z);
+        }
     }
 
     public void StoreButtonDown()
@@ -198,18 +232,19 @@ public class GameManager : MonoBehaviour
             else
                 //Debug.Log("Delete");
                 memory_Protected -= 1f;
-            yield return new WaitForSeconds(1f / object_Protected.GetComponent<Item_>().stackMemoryPerSec * 1.25f);
+            yield return new WaitForSeconds(1f / object_Protected.GetComponent<Item_>().deleteMemoryPerSec * 1.25f);
         }
     }
 
     private IEnumerator OverFlowMemory_Protected()
     {
         isOverflow_Protected = true;
+        isStack_Protected = false;
         progressbar_Protected.gameObject.GetComponent<Image>().color = Color.red;
         while (memory_Protected > 0)
         {
             memory_Protected -= 1f;
-            yield return new WaitForSeconds(1f / object_Protected.GetComponent<Item_>().stackMemoryPerSec * 1.5f);
+            yield return new WaitForSeconds(1f / object_Protected.GetComponent<Item_>().deleteMemoryPerSec * 1.5f);
         }
         isOverflow_Protected = false;
     }
@@ -269,18 +304,19 @@ public class GameManager : MonoBehaviour
             else
                 //Debug.Log("Delete");
                 memory_DFS -= 1f;
-            yield return new WaitForSeconds(1f / object_DFS.GetComponent<Item_>().stackMemoryPerSec * 1.25f);
+            yield return new WaitForSeconds(1f / object_DFS.GetComponent<Item_>().deleteMemoryPerSec * 1.25f);
         }
     }
 
     private IEnumerator OverFlowMemory_DFS()
     {
         isOverflow_DFS = true;
+        isStack_DFS = false;
         progressbar_DFS.gameObject.GetComponent<Image>().color = Color.red;
         while (memory_DFS > 0)
         {
             memory_DFS -= 1f;
-            yield return new WaitForSeconds(1f / object_DFS.GetComponent<Item_>().stackMemoryPerSec * 1.5f);
+            yield return new WaitForSeconds(1f / object_DFS.GetComponent<Item_>().deleteMemoryPerSec * 1.5f);
         }
         isOverflow_DFS = false;
     }
@@ -338,18 +374,24 @@ public class GameManager : MonoBehaviour
             //         memory_Instantiate += 1;
             //     yield return new WaitForSeconds(1f / object_Instantiate.GetComponent<Item_>().stackMemoryPerSec);
             // }
-
-            memory_Instantiate += object_Instantiate.GetComponent<Item_>().stackMemoryPerSec;
-            if (memory_Instantiate >= 100)
+            if (object_Instantiate == null)
             {
-                memory_Instantiate = 100;
-                object_Instantiate.SetActive(false);
-                StartCoroutine("OverFlowMemory_Instantiate");
-                StopCoroutine("DeleteMemory_Instantiate");
-                StopCoroutine("StackMemory_Instantiate");
+
             }
-            yield return new WaitForSeconds(0.7f);
-            isStack_Instantiate = false;
+            else
+            {
+                memory_Instantiate += object_Instantiate.GetComponent<Item_>().stackMemoryPerSec;
+                if (memory_Instantiate >= 100)
+                {
+                    memory_Instantiate = 100;
+                    object_Instantiate.SetActive(false);
+                    StartCoroutine("OverFlowMemory_Instantiate");
+                    StopCoroutine("DeleteMemory_Instantiate");
+                    StopCoroutine("StackMemory_Instantiate");
+                }
+                yield return new WaitForSeconds(1f);
+                isStack_Instantiate = false;
+            }
         }
     }
 
@@ -367,19 +409,23 @@ public class GameManager : MonoBehaviour
             else
                 //Debug.Log("Delete");
                 memory_Instantiate -= 1f;
-            yield return new WaitForSeconds(1f / object_Instantiate.GetComponent<Item_>().stackMemoryPerSec * 1.25f);
+            if (object_Instantiate == null)
+            { }
+            else
+                yield return new WaitForSeconds(1f / object_Instantiate.GetComponent<Item_>().deleteMemoryPerSec * 1.25f);
         }
     }
 
     private IEnumerator OverFlowMemory_Instantiate()
     {
+
         //Debug.Log("OverFlow");
         isOverflow_Instantiate = true;
         progressbar_Instantiate.gameObject.GetComponent<Image>().color = Color.red;
         while (memory_Instantiate > 0)
         {
             memory_Instantiate -= 1f;
-            yield return new WaitForSeconds(1f / object_Instantiate.GetComponent<Item_>().stackMemoryPerSec * 1.5f);
+            yield return new WaitForSeconds(1f / object_Instantiate.GetComponent<Item_>().deleteMemoryPerSec * 1.5f);
         }
         isOverflow_Instantiate = false;
         object_Instantiate.SetActive(true);

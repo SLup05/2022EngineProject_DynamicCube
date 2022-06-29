@@ -11,8 +11,9 @@ public class Item_Instantiate : Item_
     // Start is called before the first frame update
     void Start()
     {
-        attackpoint = 4;
+        attackpoint = 6;
         stackMemoryPerSec = 15f;
+        deleteMemoryPerSec = 15f;
         speicalPharse = "발사 탄수 증가";
     }
 
@@ -60,7 +61,15 @@ public class Item_Instantiate : Item_
             yield return new WaitForSeconds(0.15f);
         }
     }
+    protected virtual void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
 
+            //Debug.Log("get hit");
+            other.gameObject.SendMessage("Hit", attackpoint);
+        }
+    }
     public void CheckSpecialUpgrade()
     {
         if (specialCount == 1)

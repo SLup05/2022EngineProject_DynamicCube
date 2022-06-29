@@ -10,6 +10,7 @@ public class EnemyMove : MonoBehaviour
     protected Transform attackTransform;
     protected WaveManager waveManager = null;
     protected GameManager gameManager = null;
+    private MeshRenderer meshRenderer;
 
     public Vector3 targetPos;
     [SerializeField]
@@ -30,28 +31,36 @@ public class EnemyMove : MonoBehaviour
 
     [SerializeField]
     protected bool isAttack = false;
-    protected void Start()
+    private Color tempC;
+    protected virtual void Start()
     {
         //waveManager = FindObjectOfType<WaveManager>();
         gameObject.tag = "Enemy";
         gameManager = FindObjectOfType<GameManager>();
         waveManager = FindObjectOfType<WaveManager>();
+        meshRenderer = GetComponent<MeshRenderer>();
         SetStatus();
+        tempC = meshRenderer.material.color;
     }
 
     protected void Update()
     {
-        if (gameManager.isPlayerDead == true)
-        {
-            //Debug.Log("StopEnemy");
-            Destroy(gameObject);
-            gameObject.SetActive(false);
-
-        }
+        if (gameManager == null) { }
         else
         {
-            //Debug.Log("Not Died");
+            if (gameManager.isPlayerDead == true)
+            {
+                //Debug.Log("StopEnemy");
+                Destroy(gameObject);
+                gameObject.SetActive(false);
+
+            }
+            else
+            {
+                //Debug.Log("Not Died");
+            }
         }
+
 
         SetTargetPos();
         SetStatusErrorCheck();
@@ -70,10 +79,14 @@ public class EnemyMove : MonoBehaviour
             //Debug.Log("Attack");
             Move();
         }
-        if (healthpoint <= 0 || waveManager.enemyDestroy)
+        if (waveManager == null) { }
+        else
         {
-            //Debug.Log("Die");
-            Die();
+            if (healthpoint <= 0 || waveManager.enemyDestroy)
+            {
+                //Debug.Log("Die");
+                Die();
+            }
         }
     }
 
@@ -97,23 +110,21 @@ public class EnemyMove : MonoBehaviour
     /// <summary>
     /// 캐릭터 이동
     /// </summary>
-    protected void Move()
+    protected virtual void Move()
     {
         SetTargetPos();
         //        Debug.Log(targetPos);
         Vector3 dir = targetPos - transform.position;
         //transform.position = Vector3.MoveTowards(transform.position, targetPos.normalized, speed * Time.deltaTime);
-        transform.Translate(dir.normalized * 5 * Time.deltaTime);
+        transform.Translate(dir.normalized * speed * Time.deltaTime);
     }
 
     protected void Hit(float hitdamage)
     {
         //        Debug.Log("Hited " + hitdamage);
         healthpoint -= hitdamage;
-        StartCoroutine("Flash");
-        float _speed = speed;
-        DOTween.To(() => speed, x => speed = x, 0, hitDelay).SetEase(Ease.OutQuart);
-        DOTween.To(() => speed, x => speed = x, _speed, hitDelay).SetEase(Ease.InQuart);
+        if (hitdamage > 0)
+            StartCoroutine("Flash");
         Invoke("SetMoveState", 0.5f);
     }
 
@@ -121,9 +132,9 @@ public class EnemyMove : MonoBehaviour
     {
         //Material material = GetComponent<Material>();
         MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
-        Color tempC = meshRenderer.material.color;
+        //Color tempC = new Color(255, 59, 59, 255);
         meshRenderer.material.color = new Color(255, 255, 255, 255);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.05f);
         meshRenderer.material.color = tempC;
     }
 
@@ -175,7 +186,10 @@ public class EnemyMove : MonoBehaviour
 
     protected void SetTargetPos()
     {
-        targetPos = GameObject.Find("Cube").transform.position;
+        if (GameObject.Find("Cube") == null) { }
+        //Destroy(gameObject);
+        else
+            targetPos = GameObject.Find("Cube").transform.position;
     }
 
     protected void SetMoveState()

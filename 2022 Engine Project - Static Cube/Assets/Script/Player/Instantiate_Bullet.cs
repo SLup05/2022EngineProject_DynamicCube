@@ -15,12 +15,13 @@ public class Instantiate_Bullet : MonoBehaviour
     public float attackpoint = 0;
     private float destroyCount = 0f;
     private bool isGetTargetos = false;
-
+    private QuestManager questManager;
     // Start is called before the first frame update
     void Start()
     {
         //Debug.Log("Start");
         //transform.LookAt(empty.transform);
+        questManager = FindObjectOfType<QuestManager>();
     }
 
     // Update is called once per frame
@@ -48,10 +49,20 @@ public class Instantiate_Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        Debug.Log("Ins Hit");
+        //Debug.Log("Ins Hit");
         if (other.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("get hit:DFS");
+            if (other.gameObject.GetComponent<DummyMove>().isDummy)
+            {
+                //Debug.Log("DummyCheck");
+                if (questManager.nowQuest == 3)
+                {
+                    questManager.GetUpdateQuest();
+                    //Debug.Log("UpdateQuest");
+                }
+            }
+
+            Debug.Log("get hit:Ins");
             other.gameObject.SendMessage("Hit", attackpoint);
             Destroy(gameObject);
         }
@@ -62,7 +73,20 @@ public class Instantiate_Bullet : MonoBehaviour
         Debug.Log("Ins Hit");
         if (other.gameObject.CompareTag("Enemy"))
         {
-            //            Debug.Log("get hit:DFS");
+            if (other.gameObject.GetComponent<SphereMove>() != null)
+            {
+
+            }
+            else if (other.gameObject.GetComponent<DummyMove>().isDummy)
+            {
+                //Debug.Log("DummyCheck");
+                if (questManager.nowQuest == 3)
+                {
+                    questManager.GetUpdateQuest();
+                    //Debug.Log("UpdateQuest");
+                }
+            }
+            Debug.Log("get hit:Ins");
             other.gameObject.SendMessage("Hit", attackpoint);
             Destroy(gameObject);
         }

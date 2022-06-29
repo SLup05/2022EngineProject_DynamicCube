@@ -14,9 +14,10 @@ public class Item_Protected : Item_
     // Start is called before the first frame update
     protected void Start()
     {
-        stackMemoryPerSec = 10f;
+        stackMemoryPerSec = 20f;
+        deleteMemoryPerSec = 20f;
         speed = 15f;
-        attackpoint = 8f;
+        attackpoint = 10f;
         gameManager = FindObjectOfType<GameManager>();
         animator = GetComponent<Animator>();
         speicalPharse = "회전속도 강화";
@@ -56,11 +57,14 @@ public class Item_Protected : Item_
     public void CheckSpecialUpgrade()
     {
         if (specialCount == 1)
+        {
             isRotate = true;
+            speed = 35;
+        }
         else if (specialCount > 0)
         {
             animator.speed = 1 + specialCount * 0.15f;
-            speed = 50 + specialCount * 0.7f;
+            speed = 35 + specialCount * 0.5f;
         }
     }
 

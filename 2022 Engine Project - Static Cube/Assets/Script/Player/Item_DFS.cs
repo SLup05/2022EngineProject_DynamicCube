@@ -14,8 +14,10 @@ public class Item_DFS : Item_
     // Start is called before the first frame update
     void Start()
     {
+        stackMemoryPerSec = 20f;
+        deleteMemoryPerSec = 20f;
         speicalPharse = "연사 속도 강화";
-        attackpoint = 5f;
+        attackpoint = 7f;
     }
 
     protected override void Move()
