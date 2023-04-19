@@ -59,31 +59,31 @@ public class DummyMove : EnemyMove
         }
     }
 
-    private void OnTriggerEnter(Collision other)
-    {
-        if (other.gameObject.CompareTag("Plane"))
-        {
-            nowState = "Delay";
-        }
-        else if (other.gameObject.CompareTag("Player"))
-        {
-            //attackTarget = other.gameObject;
-            //nowState = "Attack";
-            PlayerAttack(other.gameObject);
-        }
-        else if (other.gameObject.CompareTag("Protected") && questManager.nowQuest == 1)
-        {
-            questManager.GetUpdateQuest();
-        }
-        else if (other.gameObject.CompareTag("DFS") && questManager.nowQuest == 2)
-        {
-            questManager.GetUpdateQuest();
-        }
-        else if (other.gameObject.CompareTag("Instantiate") && questManager.nowQuest == 3)
-        {
-            questManager.GetUpdateQuest();
-        }
-    }
+    // private void OnTriggerEnter(Collision other)
+    // {
+    //     if (other.gameObject.CompareTag("Plane"))
+    //     {
+    //         nowState = "Delay";
+    //     }
+    //     else if (other.gameObject.CompareTag("Player"))
+    //     {
+    //         //attackTarget = other.gameObject;
+    //         //nowState = "Attack";
+    //         PlayerAttack(other.gameObject);
+    //     }
+    //     else if (other.gameObject.CompareTag("Protected") && questManager.nowQuest == 1)
+    //     {
+    //         questManager.GetUpdateQuest();
+    //     }
+    //     else if (other.gameObject.CompareTag("DFS") && questManager.nowQuest == 2)
+    //     {
+    //         questManager.GetUpdateQuest();
+    //     }
+    //     else if (other.gameObject.CompareTag("Instantiate") && questManager.nowQuest == 3)
+    //     {
+    //         questManager.GetUpdateQuest();
+    //     }
+    // }
     protected override void Move()
     {
         base.Move();

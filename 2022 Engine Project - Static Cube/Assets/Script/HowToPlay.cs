@@ -8,10 +8,12 @@ public class HowToPlay : MonoBehaviour
     // Start is called before the first frame update
 
     public Canvas[] canvaslist = null;
-    private bool isHowToPlayStart = false;
+    public bool isHowToPlayStart = false;
     private int count = 0;
+    ChangeSceneManager changeSceneManager;
     void Start()
     {
+        changeSceneManager = FindObjectOfType<ChangeSceneManager>();
     }
 
     // Update is called once per frame

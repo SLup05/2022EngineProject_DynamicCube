@@ -5,6 +5,7 @@ using DG.Tweening; //import
 
 public class EnemyMove : MonoBehaviour
 {
+
     public GameObject TreasureChest = null;
     [SerializeField]
     protected Transform attackTransform;
@@ -121,6 +122,12 @@ public class EnemyMove : MonoBehaviour
     protected void Hit(float hitdamage)
     {
         //        Debug.Log("Hited " + hitdamage);
+        if (hitdamage > 0)
+        {
+            //_audioSource.Play();
+
+        }
+
         healthpoint -= hitdamage;
         if (hitdamage > 0)
             StartCoroutine("Flash");

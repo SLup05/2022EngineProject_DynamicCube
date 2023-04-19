@@ -35,6 +35,7 @@ public class Item_DFS : Item_
             CheckSpecialUpgrade();
         }
     }
+
     public void CheckSpecialUpgrade()
     {
         if (specialCount == 1)

@@ -51,67 +51,72 @@ public class TutorialManager : MonoBehaviour
     private QuestManager questManager;
     public Transform chestTransform = null;
     private bool isChangeScene = false;
+    private UIManager uIManager = null;
     //public Text nowWaveText = null;
     private void Start()
     {
         questManager = FindObjectOfType<QuestManager>();
         playerControl = FindObjectOfType<PlayerControl>();
         material = GetComponent<Material>();
+        uIManager = FindObjectOfType<UIManager>();
     }
 
     private void Update()
     {
-        Ray CamRay = camera.ScreenPointToRay(Input.mousePosition);
-        playerGoldText.text = PlayerGold.ToString() + "G";
+        if (!uIManager.isPause)
+        {
+            Ray CamRay = camera.ScreenPointToRay(Input.mousePosition);
+            playerGoldText.text = PlayerGold.ToString() + "G";
 
-        RaycastHit raycastHit;
-        if (Input.GetMouseButtonDown(1))
-        {
-            Debug.Log("CLick");
-            // if (Physics.Raycast(CamRay, out raycastHit, 10000))
-            // {
-            //     //                Debug.Log("RayHit");
-            //     if (raycastHit.transform.tag == "Chest")
-            //     {
-            //         PlayerGold += 10;
-            //         //Debug.Log("CHest");
-            //         raycastHit.transform.GetComponent<ChestControl>().Die();
-            //     }
-            // }
-        }
-        if (Input.GetMouseButtonDown(0))
-        {
-            //Debug.Log("CLick");
-            if (Physics.Raycast(CamRay, out raycastHit, 10000))
+            RaycastHit raycastHit;
+            if (Input.GetMouseButtonDown(1))
             {
-                //                Debug.Log("RayHit");
-                if (raycastHit.transform.tag == "UI")
+                Debug.Log("CLick");
+                // if (Physics.Raycast(CamRay, out raycastHit, 10000))
+                // {
+                //     //                Debug.Log("RayHit");
+                //     if (raycastHit.transform.tag == "Chest")
+                //     {
+                //         PlayerGold += 10;
+                //         //Debug.Log("CHest");
+                //         raycastHit.transform.GetComponent<ChestControl>().Die();
+                //     }
+                // }
+            }
+            if (Input.GetMouseButtonDown(0))
+            {
+                //Debug.Log("CLick");
+                if (Physics.Raycast(CamRay, out raycastHit, 10000))
                 {
-                    //PlayerGold += 10;
-                    //Debug.Log("CHest");
-                    Debug.Log("Ray Button");
-                    isStoreButtonDown = true;
+                    //                Debug.Log("RayHit");
+                    if (raycastHit.transform.tag == "UI")
+                    {
+                        //PlayerGold += 10;
+                        //Debug.Log("CHest");
+                        Debug.Log("Ray Button");
+                        isStoreButtonDown = true;
+                    }
                 }
             }
-        }
 
-        if (isPlayerDead && !isGameOver)
-        {
-            isGameOver = true;
-            StartCoroutine("GameOver");
-        }
-        if (Input.GetKeyDown(KeyCode.Tab))
-            StoreButtonDown();
+            if (isPlayerDead && !isGameOver)
+            {
+                isGameOver = true;
+                StartCoroutine("GameOver");
+            }
+            if (Input.GetKeyDown(KeyCode.Tab))
+                StoreButtonDown();
 
-        if (Input.GetKeyDown(KeyCode.Space) && isChangeScene)
-        {
-            SceneManager.LoadScene("Title");
+            if (Input.GetKeyDown(KeyCode.Space) && isChangeScene)
+            {
+                SceneManager.LoadScene("Title");
+            }
+            PlayerHpProd();
+            SetMemory_Protected();
+            SetMemory_DFS();
+            SetMemory_Instantiate();
+            SpawnDummySystem();
         }
-        PlayerHpProd();
-        SetMemory_Protected();
-        SetMemory_DFS();
-        SetMemory_Instantiate();
-        SpawnDummySystem();
     }
 
     private IEnumerator GameOver()
